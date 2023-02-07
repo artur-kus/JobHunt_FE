@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg width="88" height="88" xmlns="http://www.w3.org/2000/svg" xmlns:bx="https://boxy-svg.com">
+    <defs>
+        <filter id="b" width="139.8%" height="139.8%" x="-19.9%" y="-19.9%" filterUnits="objectBoundingBox">
+            <feGaussianBlur in="SourceAlpha" result="shadowBlurInner1" stdDeviation="17.5"/>
+            <feOffset in="shadowBlurInner1" result="shadowOffsetInner1"/>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" k2="-1" k3="1" operator="arithmetic" result="shadowInnerInner1"/>
+            <feColorMatrix in="shadowInnerInner1" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.0452633304 0"/>
+        </filter>
+        <circle id="a" cx="44" cy="44" r="44"/>
+        <style bx:fonts="Coming Soon">@import url(https://fonts.googleapis.com/css2?family=Coming+Soon%3Aital%2Cwght%400%2C400&amp;display=swap);</style>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <circle cx="44" cy="44" r="44" transform="matrix(1, 0, 0, 1, 0, 0)" fill="#000000"/>
+        <circle cx="44" cy="44" r="44" transform="matrix(1, 0, 0, 1, 0, 0)" fill="#000" filter="url(#b)"/>
+    </g>
+    <text style="fill: rgb(255, 255, 255); fill-opacity: 0.97; font-family: &quot;Coming Soon&quot;; font-size: 22px; letter-spacing: 0.4px; paint-order: stroke; white-space: pre;" transform="matrix(1, 0, 0, 1, 13.42929, -9.826303)"><tspan x="12" y="47.74">Job</tspan><tspan x="12" dy="1em">​</tspan></text>
+    <text style="white-space: pre; fill: rgb(51, 51, 51); font-family: Arial, sans-serif; font-size: 3.8px;" x="64.69" y="32.782"> </text>
+    <text style="white-space: pre; fill: rgb(51, 51, 51); font-family: Arial, sans-serif; font-size: 3.8px;" x="135.767" y="66.3"> </text>
+    <text style="white-space: pre; fill: rgb(51, 51, 51); font-family: Arial, sans-serif; font-size: 3.8px;" x="26.804" y="40.424"> </text>
+    <text style="fill: rgb(255, 255, 255); fill-opacity: 0.97; font-family: &quot;Coming Soon&quot;; font-size: 22px; letter-spacing: 0.4px; paint-order: stroke; white-space: pre;" transform="matrix(1, 0, 0, 1, 7.334986, -8.437274)"><tspan x="12" y="47.74" dy="1em">​</tspan><tspan>Hunt</tspan></text>
+</svg>

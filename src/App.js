@@ -13,8 +13,6 @@ import Profile from "./components/profile.component";
 import BoardUser from "./components/board-user.component";
 import BoardCompany from "./components/board-company.component";
 import BoardAdmin from "./components/board-admin.component";
-
-// import AuthVerify from "./common/auth-verify";
 import EventBus from "./common/EventBus";
 
 class App extends Component {
