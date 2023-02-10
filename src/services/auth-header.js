@@ -12,6 +12,10 @@ export default function authHeader() {
       // "Access-Control-Allow-Headers": "Origin, Content-Type, X-Auth-Token, Authorization, Accept,charset,boundary,Content-Length"
     };
   } else {
-    return {};
+    return {
+      "Accept": 'application/json',
+      "Access-Control-Allow-Origin": "*",
+      'Content-Type': 'application/json',
+    };
   }
 }
