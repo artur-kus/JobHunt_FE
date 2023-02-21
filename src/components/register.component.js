@@ -111,7 +111,7 @@ class Register extends Component {
                         message: response.data.message,
                         successful: true
                     });
-                    this.props.history.push(ThanksYouPage);
+                    this.props.history.redirect(ThanksYouPage);
                 },
                 error => {
                     const resMessage =

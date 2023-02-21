@@ -1,6 +1,5 @@
 import React from "react";
-import JobService from "../../services/job.service";
-import {Container} from "reactstrap";
+import DashboardService from "../../services/dashboard.service";
 import JobList from "./job.list.component";
 import {withRouter} from "../../common/with-router";
 
@@ -13,7 +12,7 @@ class JobHome extends React.Component {
     }
 
     componentDidMount() {
-        JobService.findAll()
+        DashboardService.findAllJobs()
             .then(res => {
                 this.setState({jobs: res.data.content});
             });
@@ -21,10 +20,9 @@ class JobHome extends React.Component {
 
     render() {
         return (
-            <Container fluid>
-                <h1>{this.state.jobs.map(z => console.log('tutaj ' + z.id))}</h1>
+            <div>
                 <JobList jobs={this.state.jobs} />
-            </Container>
+            </div>
         )
     }
 }

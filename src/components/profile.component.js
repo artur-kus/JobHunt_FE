@@ -14,20 +14,17 @@ export default class Profile extends Component {
   }
 
   componentDidMount() {
-    console.log("Profil: " + AuthService.getCurrentUser())
     const currentUser = AuthService.getCurrentUser();
     if (!currentUser) this.setState({ redirect: "/home" });
-    console.log("test")
     this.setState({ currentUser: currentUser, userReady: true })
   }
 
   render() {
-    if (this.state.redirect) {
-      return <Navigate to={this.state.redirect} />
-    }
-
+    // if (this.state.redirect) {
+    //   return <Navigate to={this.state.redirect} />
+    // }
+    console.log(this.state)
     const { currentUser } = this.state;
-    console.log("current user: " + currentUser)
     return (
       <div className="container">
         {(this.state.userReady) ?

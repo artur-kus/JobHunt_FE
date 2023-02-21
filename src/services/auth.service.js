@@ -6,7 +6,10 @@ class AuthService {
   login(email, password) {
     return axios.post(API_URL + "login", {email, password})
       .then(response => {
-        if (response.data != null && response.data.token.length === 131) {
+        const tokenLength = [131,132,133];
+        const userRole = ["USER","ADMIN","COMPANY"]
+        if (response.data != null && tokenLength.includes(response.data.token.length) &&
+            userRole.includes(response.data.role)) {
           localStorage.setItem("user", JSON.stringify(response.data));
         }
         return response.data;
