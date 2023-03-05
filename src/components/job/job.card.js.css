@@ -1,10 +1,18 @@
 .job-card {
-    background-color: #333;
+    background-color: #343a40;
     color: #fff;
     width: 80%;
     margin: 10px auto;
     padding: 20px;
     border-radius: 10px;
+    transition-duration: 0.4s;
+}
+.job-card:hover {
+    background-color: #1F1F1F;
+}
+
+.default-background {
+    background-color: #BDBDBD !important;
 }
 
 .company-info {
@@ -16,6 +24,8 @@
 .company-name {
     font-weight: bold;
 }
+
+
 
 .position {
     font-size: 20px;

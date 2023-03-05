@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 
-import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 import UserService from "../services/user.service";
 import EventBus from "../common/EventBus";
+import {SidebarAdmin} from "../sidebar";
 
 export default class BoardAdmin extends Component {
   constructor(props) {
@@ -37,38 +37,16 @@ export default class BoardAdmin extends Component {
     );
   }
 
-  handleClick(e, data) {
-    console.log(data.foo);
-  }
 
   render() {
     return (
       <div className="container">
-        <header className="jumbotron">
-          <h3>{this.state.content}</h3>
-          <div>
-            {/* NOTICE: id must be unique between EVERY <ContextMenuTrigger> and <ContextMenu> pair */}
-            {/* NOTICE: inside the pair, <ContextMenuTrigger> and <ContextMenu> must have the same id */}
-
-            <ContextMenuTrigger id="same_unique_identifier">
-              <div className="well">Right click to see the menu</div>
-            </ContextMenuTrigger>
-
-            <ContextMenu id="same_unique_identifier">
-              <MenuItem data={{foo: 'bar'}} onClick={this.handleClick}>
-                ContextMenu Item 1
-              </MenuItem>
-              <MenuItem data={{foo: 'bar'}} onClick={this.handleClick}>
-                ContextMenu Item 2
-              </MenuItem>
-              <MenuItem divider />
-              <MenuItem data={{foo: 'bar'}} onClick={this.handleClick}>
-                ContextMenu Item 3
-              </MenuItem>
-            </ContextMenu>
-
+        {/*<BrowserRouter>*/}
+          <SidebarAdmin />
+          <div className="container mt-3">
+            {/*<Route exact path="/admin/dashboard" component={BoardAdmin} />*/}
           </div>
-        </header>
+        {/*</BrowserRouter>*/}
       </div>
     );
   }

@@ -1,10 +1,9 @@
 import React, {Component} from "react";
 import {Link, Route, Routes} from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./App.css";
+import './App.css';
 
 import AuthService from "./services/auth.service";
-
 import Login from "./components/login.component";
 import Register from "./components/register.component";
 import ThanksYouPage from "./components/thanks.for.register.component";
@@ -13,6 +12,7 @@ import Profile from "./components/profile.component";
 import BoardUser from "./components/board-user.component";
 import BoardCompany from "./components/board-company.component";
 import BoardAdmin from "./components/board-admin.component";
+import Users from "./services/user/candidate"
 
 // import AuthVerify from "./common/auth-verify";
 import EventBus from "./common/EventBus";
@@ -58,10 +58,16 @@ class App extends Component {
     }
 
     render() {
+            const defaultBackground = {
+                backgroundColor: '#BBBBBB',
+                height: '100vh',
+            };
+
         const {currentUser, showModeratorBoard, showAdminBoard} = this.state;
         return (
+            <div style={defaultBackground}>
             <div>
-                <nav className="navbar navbar-expand navbar-dark bg-dark">
+            <nav className="navbar navbar-expand navbar-dark bg-dark">
                     <Link to={"/"} className="navbar-brand">
                         JobHunt.IT
                     </Link>
@@ -126,8 +132,8 @@ class App extends Component {
                         </div>
                     )}
                 </nav>
-
-                <div className="container mt-3">
+            </div>
+                <div>
                     <Routes>
                         <Route path="/" element={<Home/>}/>
                         <Route path="/home" element={<Home/>}/>
@@ -137,6 +143,7 @@ class App extends Component {
                         <Route path="/profile" element={<Profile/>}/>
                         <Route path="/user" element={<BoardUser/>}/>
                         <Route path="/company" element={<BoardCompany/>}/>
+                        <Route path={"/admin/users"} element={<Users/>}/>
                         <Route path="/admin" element={<BoardAdmin/>}/>
                     </Routes>
                 </div>

@@ -1,48 +1,69 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 
 import UserService from "../services/user.service";
 import EventBus from "../common/EventBus";
+import { SidebarCompany } from "../sidebar"
+import AddJob from "../services/company/job/addJob"
 
 export default class BoardCompany extends Component {
-  constructor(props) {
-    super(props);
+    constructor(props) {
+        super(props);
 
-    this.state = {
-      content: ""
-    };
-  }
+        this.state = {
+            content: ""
+        };
+    }
 
-  componentDidMount() {
-    UserService.getCompanyBoard().then(
-      response => {
-        this.setState({
-          content: response.data
-        });
-      },
-      error => {
-        this.setState({
-          content:
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString()
-        });
+    componentDidMount() {
+        UserService.getCompanyBoard().then(
+            response => {
+                this.setState({
+                    content: response.data
+                });
+            },
+            error => {
+                this.setState({
+                    content:
+                        (error.response &&
+                            error.response.data &&
+                            error.response.data.message) ||
+                        error.message ||
+                        error.toString()
+                });
 
-        if (error.response && error.response.status === 401) {
-          EventBus.dispatch("logout");
-        }
-      }
-    );
-  }
+                if (error.response && error.response.status === 401) {
+                    EventBus.dispatch("logout");
+                }
+            }
+        );
+    }
 
-  render() {
-    return (
-      <div className="container">
-        <header className="jumbotron">
-          <h3>{this.state.content}</h3>
-        </header>
-      </div>
-    );
-  }
+    render() {
+        return (
+            <div>
+                <div className="nav-menu">
+                    {/*<BrowserRouter>*/}
+                    <SidebarCompany />
+                    {/*<div className="container mt-3">*/}
+                    {/*    <Route exact path="/" component={Home} />*/}
+                    {/*    <Route exact path="/home" component={Home} />*/}
+                    {/*    <Route exact path="/company" component={CompanyBoard} />*/}
+                    {/*    <Route exact path="/admin" component={AdminBoard} />*/}
+                    {/*    <Route exact path="/user" component={UserBoard} />*/}
+                    {/*    <Route exact path="/login" component={Login} />*/}
+                    {/*    <Route exact path="/register" component={Register} />*/}
+                    {/*    <Route exact path="/profile" component={Profile} />*/}
+                    {/*</div>*/}
+                {/*</BrowserRouter>*/}
+                );
+                </div>
+                <div className="container">
+                    {/*<header className="jumbotron">*/}
+                    {/*    <h3>{this.state.content}</h3>*/}
+                    {/*</header>*/}
+                    <AddJob/>
+                </div>
+            </div>
+        );
+    }
 }

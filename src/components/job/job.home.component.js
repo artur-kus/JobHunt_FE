@@ -1,5 +1,5 @@
 import React from "react";
-import DashboardService from "../../services/dashboard.service";
+import HomeService from "../../services/home.service";
 import JobList from "./job.list.component";
 import {withRouter} from "../../common/with-router";
 
@@ -12,7 +12,7 @@ class JobHome extends React.Component {
     }
 
     componentDidMount() {
-        DashboardService.findAllJobs()
+        HomeService.findAllJobs()
             .then(res => {
                 this.setState({jobs: res.data.content});
             });

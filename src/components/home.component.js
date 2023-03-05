@@ -2,6 +2,7 @@ import React, {Component} from "react";
 
 import UserService from "../services/user.service";
 import Job from "./job/job.home.component";
+import JobCard from "./job/job.card.js.css"
 
 export default class Home extends Component {
     constructor(props) {
@@ -32,11 +33,15 @@ export default class Home extends Component {
 
     render() {
         return (
-            <div className="container">
-                <header className="jumbotron">
-                    <h3>{this.state.content}</h3>
-                </header>
-                <Job/>
+            <div className={"jumbotron default-background"}>
+                <div className="container">
+                    {/*<header className="jumbotron">*/}
+                    {/*<h3>{this.state.content}</h3>*/}
+                    <div className={JobCard.jobCard}>
+                        <Job/>
+                    </div>
+                    {/*</header>*/}
+                </div>
             </div>
         );
     }
