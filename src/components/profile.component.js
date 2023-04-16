@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import AuthService from "../services/auth.service";
+import {authService} from "../services/apiServices";
 
 export default class Profile extends Component {
   constructor(props) {
@@ -13,7 +13,7 @@ export default class Profile extends Component {
   }
 
   componentDidMount() {
-    const currentUser = AuthService.getCurrentUser();
+    const currentUser = authService.getCurrentUser();
     if (!currentUser) this.setState({ redirect: "/home" });
     this.setState({ currentUser: currentUser, userReady: true })
   }

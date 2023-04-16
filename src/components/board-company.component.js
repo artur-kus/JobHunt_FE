@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 
-import UserService from "../services/user.service";
+import {userService} from "../services/apiServices"
 import EventBus from "../common/EventBus";
 import { SidebarCompany } from "../sidebar"
 // import AddJob from "../services/company/job/addJob"
@@ -15,7 +15,7 @@ export default class BoardCompany extends Component {
     }
 
     componentDidMount() {
-        UserService.getCompanyBoard().then(
+        userService.getCompanyBoard().then(
             response => {
                 this.setState({
                     content: response.data

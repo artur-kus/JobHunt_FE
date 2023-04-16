@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import UserService from "../services/user.service";
+import {userService} from "../services/apiServices"
 import EventBus from "../common/EventBus";
 import {ContextMenu, ContextMenuTrigger, MenuItem} from "react-contextmenu";
 
@@ -14,7 +14,7 @@ export default class BoardUser extends Component {
   }
 
   componentDidMount() {
-    UserService.getUserBoard().then(
+    userService.getUserBoard().then(
       response => {
         this.setState({
           content: response.data

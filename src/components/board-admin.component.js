@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import UserService from "../services/user.service";
+import {userService} from "../services/apiServices"
 import EventBus from "../common/EventBus";
 import {SidebarAdmin} from "../sidebar";
 
@@ -14,7 +14,7 @@ export default class BoardAdmin extends Component {
   }
 
   componentDidMount() {
-    UserService.getAdminBoard().then(
+    userService.getAdminBoard().then(
       response => {
         this.setState({
           content: response.data

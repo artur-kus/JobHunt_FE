@@ -1,6 +1,6 @@
 import React from 'react';
 import {withRouter} from "../../common/with-router";
-import {getJobDetails} from "../../services/job.service";
+import {homeService} from "../../services/apiServices"
 import FileUploader from "../../services/file-uploader";
 import "./job-detail.css";
 
@@ -17,7 +17,7 @@ class JobDetail extends React.Component {
 
     componentDidMount() {
         const jobId = this.props.router.params.jobId;
-        getJobDetails(jobId).then((res) => {
+        homeService.getJobDetails(jobId).then((res) => {
             this.setState({job: res});
         });
     }

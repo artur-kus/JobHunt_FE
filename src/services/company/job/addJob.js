@@ -1,10 +1,7 @@
 import React, {useEffect, useState} from "react";
 import CRUDTable, {CreateForm, DeleteForm, Field, Fields, UpdateForm} from "react-crud-table";
-import CandidateService from "../../user/candidate.service";
-
-// Component's Base CSS
 import "./job.css";
-import UserService from "../../user/candidate.service";
+import {candidateService} from "../../apiServices";
 
 // const DescriptionRenderer = ({field}) => <textarea {...field} />;
 
@@ -91,7 +88,7 @@ export const TaskComponent = () => {
         <div style={styles.container}>
             <CRUDTable
                 caption="Tasks"
-                fetchItems={async payload => service.fetchItems(payload, await UserService.findAll())}
+                fetchItems={async payload => service.fetchItems(payload, await candidateService.findAll())}
             >
                 <Fields>
                     <Field name="id" label="Id" hideInCreateForm/>

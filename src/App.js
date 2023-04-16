@@ -3,7 +3,7 @@ import {Link, Route, Routes} from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import './App.css';
 
-import AuthService from "./services/auth.service";
+import {authService} from "./services/apiServices";
 import Login from "./components/login.component";
 import Register from "./components/register.component";
 import ThanksYouPage from "./components/thanks.for.register.component";
@@ -32,7 +32,7 @@ class App extends Component {
     }
 
     componentDidMount() {
-        const user = AuthService.getCurrentUser();
+        const user = authService.getCurrentUser();
         if (user) {
             this.setState({
                 currentUser: user,
@@ -51,7 +51,7 @@ class App extends Component {
     }
 
     logOut() {
-        AuthService.logout();
+        authService.logout();
         this.setState({
             showModeratorBoard: false,
             showAdminBoard: false,

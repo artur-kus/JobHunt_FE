@@ -1,8 +1,9 @@
 import React, {Component} from "react";
 
-import UserService from "../services/user.service";
+
 import Job from "./job/job.home.component";
 import JobCard from "./job/job.card.js.css"
+import {userService} from "../services/apiServices"
 
 export default class Home extends Component {
     constructor(props) {
@@ -14,7 +15,7 @@ export default class Home extends Component {
     }
 
     componentDidMount() {
-        UserService.getPublicContent().then(
+        userService.getPublicContent().then(
             response => {
                 this.setState({
                     content: response.data

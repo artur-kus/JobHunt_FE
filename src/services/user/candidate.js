@@ -1,8 +1,6 @@
 import React, {Component} from "react";
+import {candidateService} from "../apiServices"
 import CRUDTable, {CreateForm, DeleteForm, Field, Fields, UpdateForm} from "react-crud-table";
-
-// Component's Base CSS
-import UserService from "./candidate.service";
 import {withRouter} from "../../common/with-router";
 
 const DescriptionRenderer = ({field}) => <textarea {...field} />;
@@ -106,7 +104,7 @@ class Candidate extends Component {
             <div style={styles.container}>
                 <CRUDTable
                     caption="Candidate"
-                    fetchItems={async payload => service.fetchItems(payload, await UserService.findAll())}
+                    fetchItems={async payload => service.fetchItems(payload, await candidateService.findAll())}
                 >
                     <Fields>
                         <Field name="id" label="Id" hideInCreateForm/>

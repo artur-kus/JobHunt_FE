@@ -1,5 +1,5 @@
 import React from "react";
-import {findAllJobs} from "../../services/job.service";
+import {homeService} from "../../services/apiServices"
 import JobList from "./job.list.component";
 import {withRouter} from "../../common/with-router";
 
@@ -16,7 +16,7 @@ class JobHome extends React.Component {
             sort: 'ASC',
             sortedFieldName: 'id'
         };
-        findAllJobs(page)
+        homeService.findAllJobs(page)
             .then(res => {
                 this.setState({jobs: res.content});
             });

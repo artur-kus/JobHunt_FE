@@ -3,8 +3,8 @@ import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 
-import AuthService from "../services/auth.service";
-import EnumService from "../services/enum.service";
+import {authService} from "../services/apiServices";
+import {enumService} from "../services/apiServices";
 import ThanksYouPage from "./thanks.for.register.component"
 import {withRouter} from "../common/with-router";
 import CompanyForm from "./register-company";
@@ -69,7 +69,7 @@ class Register extends Component {
     }
 
     componentDidMount() {
-        EnumService.getUserRoles().then(res => {
+        enumService.getUserRoles().then(res => {
             this.setState({
                 rolesList: res.data,
                 selectedRole: res.data[0]
@@ -102,7 +102,7 @@ class Register extends Component {
         this.form.validateAll();
 
         if (this.checkBtn.context._errors.length === 0) {
-            AuthService.register(
+            authService.register(
                 this.state.email,
                 this.state.password,
                 this.state.selectedRole
