@@ -1,11 +1,12 @@
-import React, {Component} from "react";
+import React, {useEffect, useState} from "react";
 import CRUDTable, {CreateForm, DeleteForm, Field, Fields, UpdateForm} from "react-crud-table";
+import CandidateService from "../../user/candidate.service";
 
 // Component's Base CSS
 import "./job.css";
-import {withRouter} from "../../../common/with-router";
+import UserService from "../../user/candidate.service";
 
-const DescriptionRenderer = ({field}) => <textarea {...field} />;
+// const DescriptionRenderer = ({field}) => <textarea {...field} />;
 
 let tasks = [
     {
@@ -48,10 +49,16 @@ const getSorter = data => {
 
 let count = tasks.length;
 const service = {
-    fetchItems: payload => {
-        let result = Array.from(tasks);
-        result = result.sort(getSorter(payload.sort));
-        return Promise.resolve(result);
+    fetchItems: (payload, response) => {
+        let items = response.data.content.map(item => {
+            return {
+                ...item,
+                email: item.user.email,
+                street: item.address.street
+            }
+        });
+        items = items.sort(getSorter(payload.sort));
+        return Promise.resolve(items);
     },
     create: task => {
         count += 1;
@@ -78,91 +85,81 @@ const styles = {
     container: {margin: "auto", width: "fit-content"}
 };
 
-class AddJob extends Component {
+export const TaskComponent = () => {
 
-    componentDidMount() {
+    return (
+        <div style={styles.container}>
+            <CRUDTable
+                caption="Tasks"
+                fetchItems={async payload => service.fetchItems(payload, await UserService.findAll())}
+            >
+                <Fields>
+                    <Field name="id" label="Id" hideInCreateForm/>
+                    <Field name="email" label="Email" placeholder="Email"/>
+                    <Field name="firstName" label="First Name" placeholder="First Name"/>
+                    <Field name="lastName" label="Last Name" placeholder="Last Name"/>
+                    <Field name="street" label="Street" placeholder="Street"/>
+                </Fields>
+                <CreateForm
+                    title="Task Creation"
+                    message="Create a new task!"
+                    trigger="Create Task"
+                    onSubmit={task => service.create(task)}
+                    submitText="Create"
+                    validate={values => {
+                        const errors = {};
+                        if (!values.title) {
+                            errors.title = "Please, provide task's title";
+                        }
 
-    }
+                        if (!values.description) {
+                            errors.description = "Please, provide task's description";
+                        }
 
-    render() {
-        return (
-            <div style={styles.container}>
-                <CRUDTable
-                    caption="Tasks"
-                    fetchItems={payload => service.fetchItems(payload)}
-                >
-                    <Fields>
-                        <Field name="id" label="Id" hideInCreateForm/>
-                        <Field name="title" label="Title" placeholder="Title"/>
-                        <Field
-                            name="description"
-                            label="Description"
-                            render={DescriptionRenderer}
-                        />
-                    </Fields>
-                    <CreateForm
-                        title="Task Creation"
-                        message="Create a new task!"
-                        trigger="Create Task"
-                        onSubmit={task => service.create(task)}
-                        submitText="Create"
-                        validate={values => {
-                            const errors = {};
-                            if (!values.title) {
-                                errors.title = "Please, provide task's title";
-                            }
+                        return errors;
+                    }}
+                />
 
-                            if (!values.description) {
-                                errors.description = "Please, provide task's description";
-                            }
+                <UpdateForm
+                    title="Task Update Process"
+                    message="Update task"
+                    trigger="Update"
+                    onSubmit={task => service.update(task)}
+                    submitText="Update"
+                    validate={values => {
+                        const errors = {};
 
-                            return errors;
-                        }}
-                    />
+                        if (!values.id) {
+                            errors.id = "Please, provide id";
+                        }
 
-                    <UpdateForm
-                        title="Task Update Process"
-                        message="Update task"
-                        trigger="Update"
-                        onSubmit={task => service.update(task)}
-                        submitText="Update"
-                        validate={values => {
-                            const errors = {};
+                        if (!values.title) {
+                            errors.title = "Please, provide task's title";
+                        }
 
-                            if (!values.id) {
-                                errors.id = "Please, provide id";
-                            }
+                        if (!values.description) {
+                            errors.description = "Please, provide task's description";
+                        }
 
-                            if (!values.title) {
-                                errors.title = "Please, provide task's title";
-                            }
+                        return errors;
+                    }}
+                />
 
-                            if (!values.description) {
-                                errors.description = "Please, provide task's description";
-                            }
-
-                            return errors;
-                        }}
-                    />
-
-                    <DeleteForm
-                        title="Task Delete Process"
-                        message="Are you sure you want to delete the task?"
-                        trigger="Delete"
-                        onSubmit={task => service.delete(task)}
-                        submitText="Delete"
-                        validate={values => {
-                            const errors = {};
-                            if (!values.id) {
-                                errors.id = "Please, provide id";
-                            }
-                            return errors;
-                        }}
-                    />
-                </CRUDTable>
-            </div>
-        );
-    }
-}
-
-export default withRouter(AddJob)
+                <DeleteForm
+                    title="Task Delete Process"
+                    message="Are you sure you want to delete the task?"
+                    trigger="Delete"
+                    onSubmit={task => service.delete(task)}
+                    submitText="Delete"
+                    validate={values => {
+                        const errors = {};
+                        if (!values.id) {
+                            errors.id = "Please, provide id";
+                        }
+                        return errors;
+                    }}
+                />
+            </CRUDTable>
+        </div>
+    )
+};

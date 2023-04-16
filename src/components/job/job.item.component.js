@@ -1,14 +1,17 @@
 import React, {Component} from 'react';
 import {withRouter} from "../../common/with-router";
+import JobDetail from "./job.detail";
+import {Link} from "react-router-dom";
 
 class Job extends Component {
     constructor(props) {
         super(props);
         this.state = {
             job: {
+                id: "",
                 companyName: '',
                 companyAddress: '',
-                jobName: '',
+                name: '',
                 salary: {
                     salary: '',
                     minWage: '',
@@ -27,12 +30,13 @@ class Job extends Component {
     render() {
         const {job} = this.props;
         return (
+            <Link to={`/job/${job.id}`}>
             <div className="job-card">
                 <div className="company-info">
                     <div className="company-name">{job.companyName}</div>
                     <div className="company-address">{job.companyAddress}</div>
                 </div>
-                <div className="position">{job.jobName}</div>
+                <div className="position">{job.name}</div>
                 <div className="details">
                     <div className="salary">
                         {job.salary.salary != null
@@ -47,6 +51,7 @@ class Job extends Component {
                     <div>{job.languages.join(' ')}</div>
                 </div>
             </div>
+            </Link>
         )
     }
 }

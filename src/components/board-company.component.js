@@ -3,7 +3,7 @@ import React, {Component} from "react";
 import UserService from "../services/user.service";
 import EventBus from "../common/EventBus";
 import { SidebarCompany } from "../sidebar"
-import AddJob from "../services/company/job/addJob"
+// import AddJob from "../services/company/job/addJob"
 
 export default class BoardCompany extends Component {
     constructor(props) {
@@ -61,7 +61,7 @@ export default class BoardCompany extends Component {
                     {/*<header className="jumbotron">*/}
                     {/*    <h3>{this.state.content}</h3>*/}
                     {/*</header>*/}
-                    <AddJob/>
+                    {/*<AddJob/>*/}
                 </div>
             </div>
         );

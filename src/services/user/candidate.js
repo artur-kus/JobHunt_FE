@@ -7,18 +7,6 @@ import {withRouter} from "../../common/with-router";
 
 const DescriptionRenderer = ({field}) => <textarea {...field} />;
 
-let candidates = [
-    {
-        id: 1,
-        title: "Create an example",
-        description: "Create an example of how to use the component"
-    },
-    {
-        id: 2,
-        title: "Improve",
-        description: "Improve the component!"
-    }
-];
 
 const SORTERS = {
     NUMBER_ASCENDING: mapper => (a, b) => mapper(a) - mapper(b),
@@ -46,37 +34,57 @@ const getSorter = data => {
     return sorter;
 };
 
-let count = candidates.length;
-
-// let count = items => {
-//     items.length
-// }
-
 const service = {
-    fetchItems: (payload, items) => {
-        console.log("test service");
-        console.log(items);
+    fetchItems: (payload, response) => {
+        let items = response.data.content.map(item => {
+            return {
+                ...item,
+                email: item.user.email,
+                street: item.address.street
+            }
+        });
         items = items.sort(getSorter(payload.sort));
         return Promise.resolve(items);
     },
     create: task => {
-        count += 1;
-        candidates.push({
+        const candidates = [...this.state.candidates];
+        const newCandidate = {
             ...task,
-            id: count
+            id: this.state.count + 1 // increment the count
+        };
+        candidates.push(newCandidate);
+        return new Promise(resolve => {
+            this.setState({
+                candidates,
+                count: this.state.count + 1 // increment the count in state
+            }, () => resolve(newCandidate));
         });
-        return Promise.resolve(task);
     },
     update: data => {
-        const task = candidates.find(t => t.id === data.id);
-        task.title = data.title;
-        task.description = data.description;
-        return Promise.resolve(task);
+        const candidates = [...this.state.candidates];
+        const index = candidates.findIndex(t => t.id === data.id);
+        const updatedCandidate = {
+            ...candidates[index],
+            ...data
+        };
+        candidates.splice(index, 1, updatedCandidate);
+        return new Promise(resolve => {
+            this.setState({
+                candidates
+            }, () => resolve(updatedCandidate));
+        });
     },
     delete: data => {
-        const task = candidates.find(t => t.id === data.id);
-        candidates = candidates.filter(t => t.id !== task.id);
-        return Promise.resolve(task);
+        const candidates = [...this.state.candidates];
+        const index = candidates.findIndex(t => t.id === data.id);
+        const deletedCandidate = candidates[index];
+        candidates.splice(index, 1);
+        return new Promise(resolve => {
+            this.setState({
+                candidates,
+                count: this.state.count - 1 // decrement the count in state
+            }, () => resolve(deletedCandidate));
+        });
     }
 };
 
@@ -85,53 +93,32 @@ const styles = {
 };
 
 class Candidate extends Component {
-
     constructor(props) {
         super(props)
         this.state = {
             candidates: [],
-            // pageSize: 20
-            // isLoadingRacers: true,
-            // isLoadingPagination: false,
+            count: 0
         }
     }
 
-    componentDidMount() {
-        UserService.findAll().then(response => {
-            this.setState({
-                candidates: response.data.content
-            })
-        })
-            .catch(ex => {
-                this.setState({})
-            })
-    }
-
     render() {
-        console.log('Render: ');
-        console.log(this.state.candidates);
         return (
             <div style={styles.container}>
                 <CRUDTable
                     caption="Candidate"
-                    fetchItems={payload => service.fetchItems(payload, this.state.candidates)}
+                    fetchItems={async payload => service.fetchItems(payload, await UserService.findAll())}
                 >
                     <Fields>
                         <Field name="id" label="Id" hideInCreateForm/>
                         <Field name="email" label="Email" placeholder="Email"/>
                         <Field name="firstName" label="First Name" placeholder="First Name"/>
                         <Field name="lastName" label="Last Name" placeholder="Last Name"/>
-                        <Field name="title" label="Title" placeholder="Title"/>
-                        <Field
-                            name="description"
-                            label="Description"
-                            render={DescriptionRenderer}
-                        />
+                        <Field name="street" label="Street" placeholder="Street"/>
                     </Fields>
                     <CreateForm
-                        title="Task Creation"
-                        message="Create a new task!"
-                        trigger="Create Task"
+                        title="User Creation"
+                        message="Add a new user"
+                        trigger="Create user"
                         onSubmit={task => service.create(task)}
                         submitText="Create"
                         validate={values => {

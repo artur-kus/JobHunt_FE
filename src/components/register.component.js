@@ -7,6 +7,7 @@ import AuthService from "../services/auth.service";
 import EnumService from "../services/enum.service";
 import ThanksYouPage from "./thanks.for.register.component"
 import {withRouter} from "../common/with-router";
+import CompanyForm from "./register-company";
 
 const required = value => {
     if (!value) {
@@ -179,15 +180,20 @@ class Register extends Component {
                                         className="form-control"
                                         value={this.state.selectedRole}
                                         onChange={this.handleChange}>
-                                        {this.state.rolesList.map(role => <option key={role} value={role}>{role}</option>)}
+                                        {this.state.rolesList.map(role => <option key={role}
+                                                                                  value={role}>{role}</option>)}
                                     </select>
                                 </div>
-
                                 <div className="form-group">
                                     <button className="btn btn-primary btn-block">Sign Up</button>
                                 </div>
                             </div>
                         )}
+
+                        <div className={"form-group"}>
+                            <CompanyForm selectedRole={this.state.selectedRole} />
+                        </div>
+
 
                         {this.state.message && (
                             <div className="form-group">
@@ -215,4 +221,5 @@ class Register extends Component {
         );
     }
 }
+
 export default withRouter(Register);

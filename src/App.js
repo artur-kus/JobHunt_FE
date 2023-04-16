@@ -13,6 +13,8 @@ import BoardUser from "./components/board-user.component";
 import BoardCompany from "./components/board-company.component";
 import BoardAdmin from "./components/board-admin.component";
 import Users from "./services/user/candidate"
+import {TaskComponent} from "./services/company/job/addJob";
+import JobDetail from "./components/job/job.detail";
 
 // import AuthVerify from "./common/auth-verify";
 import EventBus from "./common/EventBus";
@@ -143,8 +145,10 @@ class App extends Component {
                         <Route path="/profile" element={<Profile/>}/>
                         <Route path="/user" element={<BoardUser/>}/>
                         <Route path="/company" element={<BoardCompany/>}/>
+                        <Route path="/job/:jobId" element={<JobDetail />} />
                         <Route path={"/admin/users"} element={<Users/>}/>
                         <Route path="/admin" element={<BoardAdmin/>}/>
+                        <Route path="/task" element={<TaskComponent/>}/>
                     </Routes>
                 </div>
 

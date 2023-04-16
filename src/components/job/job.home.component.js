@@ -1,20 +1,24 @@
 import React from "react";
-import HomeService from "../../services/home.service";
+import {findAllJobs} from "../../services/job.service";
 import JobList from "./job.list.component";
 import {withRouter} from "../../common/with-router";
 
 class JobHome extends React.Component {
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
             jobs: [],
-        }
+        };
     }
 
     componentDidMount() {
-        HomeService.findAllJobs()
+        const page = {
+            sort: 'ASC',
+            sortedFieldName: 'id'
+        };
+        findAllJobs(page)
             .then(res => {
-                this.setState({jobs: res.data.content});
+                this.setState({jobs: res.content});
             });
     }
 
