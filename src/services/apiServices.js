@@ -1,6 +1,7 @@
 import axios from 'axios';
 import authHeader from './auth-header';
 
+
 const API_URL = 'http://localhost:8010/api/';
 
 export const userService = {
@@ -40,6 +41,12 @@ export const homeService = {
 export const enumService = {
     getUserRoles: () => {
         return axios.get(`${API_URL}enum/user-roles`);
+    },
+    getCountries: () => {
+        return axios.get(`${API_URL}enum/countries`);
+    },
+    getProgrammingLanguages: () => {
+        return axios.get(`${API_URL}enum/programming-languages`);
     }
 };
 
@@ -68,8 +75,9 @@ export const authService = {
 };
 
 export const candidateService = {
-    findAll: () => {
-        return axios.post(`${API_URL}candidates/findAll`, { body: {} }, { headers: authHeader() });
+    findAll: (data) => {
+        console.log(authHeader());
+        return axios.post(`${API_URL}candidates/findAll`, {data}, { headers: authHeader() });
     },
     create: () => {
         return axios.get(`${API_URL}candidates/create`, { headers: authHeader() });
@@ -80,7 +88,44 @@ export const candidateService = {
     edit: () => {
         return axios.get(`${API_URL}candidates/edit`, { headers: authHeader() });
     },
-    delete: () => {
-        return axios.get(`${API_URL}candidates/delete`, { headers: authHeader() });
+    delete: (id) => {
+        return axios.get(`${API_URL}candidates/delete?candidateId=` + id, { headers: authHeader() });
+    }
+};
+
+export const companyService = {
+    findAll: (data) => {
+        console.log(authHeader());
+        return axios.post(`${API_URL}companies/findAll`, {data}, {headers: authHeader()});
+    },
+    create: () => {
+        return axios.get(`${API_URL}companies/create`, {headers: authHeader()});
+    },
+    get: () => {
+        return axios.get(`${API_URL}companies/get`, {headers: authHeader()});
+    },
+    edit: () => {
+        return axios.get(`${API_URL}companies/edit`, {headers: authHeader()});
+    },
+    delete: (id) => {
+        return axios.get(`${API_URL}candidates/delete?companyId=` + id, {headers: authHeader()});
+    }
+};
+
+export const jobService = {
+    findAll: (data) => {
+        return axios.post(`${API_URL}jobs/findAll`, {data}, { headers: authHeader() });
+    },
+    create: () => {
+        return axios.post(`${API_URL}jobs/create`, { headers: authHeader() });
+    },
+    get: () => {
+        return axios.get(`${API_URL}jobs/get`, { headers: authHeader() });
+    },
+    edit: (data) => {
+        return axios.post(`${API_URL}jobs/edit`, {data}, { headers: authHeader() });
+    },
+    delete: (id) => {
+        return axios.delete(`${API_URL}jobs/delete?jobId=` + id, { headers: authHeader() });
     }
 };

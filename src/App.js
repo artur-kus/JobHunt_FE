@@ -15,6 +15,7 @@ import BoardAdmin from "./components/board-admin.component";
 import Users from "./services/user/candidate"
 import {TaskComponent} from "./services/company/job/addJob";
 import JobDetail from "./components/job/job.detail";
+import Example from "./components/job/job-grid"
 
 // import AuthVerify from "./common/auth-verify";
 import EventBus from "./common/EventBus";
@@ -149,6 +150,7 @@ class App extends Component {
                         <Route path={"/admin/users"} element={<Users/>}/>
                         <Route path="/admin" element={<BoardAdmin/>}/>
                         <Route path="/task" element={<TaskComponent/>}/>
+                        <Route path="/dashboard/admin/jobs" element={<Example/>}/>
                     </Routes>
                 </div>
 
