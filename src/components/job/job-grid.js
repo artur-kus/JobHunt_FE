@@ -7,13 +7,16 @@ import {
     DialogActions,
     DialogContent,
     DialogTitle,
+    FormControl,
     IconButton,
+    InputLabel,
+    Select,
     Stack,
     TextField,
     Tooltip,
 } from '@mui/material';
 import {Delete, Edit} from '@mui/icons-material';
-import {jobService, enumService} from "../../services/apiServices";
+import {enumService, jobService} from "../../services/apiServices";
 import {MenuItem} from "react-contextmenu";
 
 const Example = () => {
@@ -22,6 +25,7 @@ const Example = () => {
     const [page] = useState(0);
     const [pageSize] = useState(20);
     const [languages, setLanguages] = useState([]);
+    const [salary, minWage, maxWage] = useState(0);
     const [tableData, setTableData] = useState(() => data);
     const [validationErrors, setValidationErrors] = useState({});
     const [createModalOpen, setCreateModalOpen] = useState(false);
@@ -30,8 +34,7 @@ const Example = () => {
         const fetchLanguagesData = async () => {
             try {
                 const response = await enumService.getProgrammingLanguages();
-                console.log(response.data.content)
-                setLanguages(response.data.content);
+                setLanguages(response.data);
             } catch (error) {
                 console.error(error);
             }
@@ -152,55 +155,91 @@ const Example = () => {
     //     [validationErrors],
     // );
 
+    const notVisibleColumns = useMemo(() => ['salary.salary', 'salary.minWage', 'salary.maxWage'], []);
+
     const columns = useMemo(
-        () => [
-            {
-                accessorKey: 'id',
-                header: 'ID',
-                enableColumnOrdering: false,
-                enableCreating: false,
-                enableEditing: false, //disable editing on this column
-                enableSorting: false,
-                size: 80,
-            },
-            {
-                accessorKey: 'name',
-                header: 'Name',
-                size: 140,
-                // muiTableBodyCellEditTextFieldProps: ({cell}) => ({
-                //     ...getCommonEditTextFieldProps(cell),
-                // }),
-            },
-            {
-                accessorKey: 'description',
-                header: 'Description',
-                size: 140,
-                // muiTableBodyCellEditTextFieldProps: ({cell}) => ({
-                //     ...getCommonEditTextFieldProps(cell),
-                // }),
-            },
-            {
-                accessorKey: 'status',
-                header: 'Status',
-                size: 10,
-                // muiTableBodyCellEditTextFieldProps: ({cell}) => ({
-                //     ...getCommonEditTextFieldProps(cell),
-                // }),
-            },
-            {
-                accessorKey: 'languages',
-                header: 'Languages',
-                muiTableBodyCellEditTextFieldProps: {
-                    select: true, //change to select for a dropdown
-                    children: languages.map((language) => (
-                        <MenuItem key={language} value={language}>
-                            {language}
-                        </MenuItem>
-                    )),
+        () => {
+            return [
+                {
+                    accessorKey: 'id',
+                    header: 'ID',
+                    enableColumnOrdering: false,
+                    enableCreating: false,
+                    enableEditing: false, //disable editing on this column
+                    size: 80,
                 },
-            },
-        ],
-        [],
+                {
+                    accessorKey: 'name',
+                    header: 'Name',
+                    size: 140,
+                    // muiTableBodyCellEditTextFieldProps: ({cell}) => ({
+                    //     ...getCommonEditTextFieldProps(cell),
+                    // }),
+                },
+                {
+                    accessorKey: 'description',
+                    header: 'Description',
+                    size: 140,
+                    // muiTableBodyCellEditTextFieldProps: ({cell}) => ({
+                    //     ...getCommonEditTextFieldProps(cell),
+                    // }),
+                },
+                {
+                    accessorKey: 'status',
+                    header: 'Status',
+                    size: 10,
+                    // muiTableBodyCellEditTextFieldProps: ({cell}) => ({
+                    //     ...getCommonEditTextFieldProps(cell),
+                    // }),
+                },
+                {
+                    accessorKey: 'languages',
+                    header: 'Languages',
+                    Cell: ({row}) => row.original.languages.join(', '),
+                    muiTableBodyCellEditTextFieldProps: {
+                        Select: true, // change to Select for a dropdown
+                        multiple: true, // enable multiple selection
+                        children: languages.map((language) => (
+                            <MenuItem key={language} value={language}>
+                                {language}
+                            </MenuItem>
+                        )),
+                    },
+                },
+                {
+                    accessor: "",
+                    header: 'Salary',
+                    enableEditing: false,
+                    enableCreating: false,
+                    size: 30,
+                    Cell: ({row}) => (
+                        `$${(row.original.salary != null && row.original.salary.salary != null) ? row.original.salary.salary : row.original.salary.minWage + ' - ' + row.original.salary.maxWage}`
+                    )
+                },
+                {
+                    accessorKey: 'salary.salary',
+                    accessor: "",
+                    header: 'Full salary',
+                    enableEditing: true,
+                    size: 15,
+                },
+                {
+                    accessorKey: 'salary.minWage',
+                    accessor: "",
+                    header: 'Minimal wage salary',
+                    enableEditing: true,
+                    size: 15,
+                },
+                {
+                    accessorKey: 'salary.maxWage',
+                    accessor: "",
+                    header: 'Maximal wage salary',
+                    enableEditing: true,
+                    size: 50,
+                },
+            ]
+        },
+        [languages],
     );
 
     return (
@@ -214,6 +253,7 @@ const Example = () => {
                 //         size: 120,
                 //     },
                 // }}
+                initialState={{columnVisibility: {...Object.fromEntries(notVisibleColumns.map(column => [column, false]))}}}
                 columns={columns}
                 data={tableData}
                 editingMode="modal" //default
@@ -249,55 +289,130 @@ const Example = () => {
                 open={createModalOpen}
                 onClose={() => setCreateModalOpen(false)}
                 onSubmit={handleCreateNewRow}
+                idCompany={idCompany}
             />
         </>
     );
 };
 
 //example of creating a mui dialog modal for creating new rows
-export const CreateNewAccountModal = ({open, columns, onClose, onSubmit}) => {
-    const [values, setValues] = useState(() =>
-        columns.reduce((acc, column) => {
-            acc[column.accessorKey ?? ''] = '';
-            return acc;
-        }, {}),
-    );
+const CreateNewAccountModal = ({open, columns, onClose, onSubmit, idCompany}) => {
+    const [values, setValues] = useState(() => {
+        const initial = {};
+        columns.forEach((column) => {
+            initial[column.accessorKey ?? ""] = "";
+        });
+        initial.languages = [];
+        return initial;
+    });
+
+    const handleChange = (event) => {
+        const name = event.target.name;
+        setValues({
+            ...values,
+            [name]: event.target.value,
+        });
+    };
 
     const handleSubmit = () => {
-        //put your validation logic here
-        onSubmit(values);
+        const completeObject = {
+            ...values,
+            salary: {
+                salary: values.salary?.salary || 0,
+                minWage: values.salary?.minWage || 0,
+                maxWage: values.salary?.maxWage || 0,
+            },
+            idCompany: idCompany,
+        };
+        const createJob = async () => {
+            try {
+                console.log(completeObject)
+                jobService.create(completeObject);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        // put your validation logic here
+        onSubmit(completeObject);
         onClose();
+        createJob();
     };
+
+    // filter out the 'id' column
+    const filteredColumns = columns.filter((column) => column.accessorKey !== "id");
 
     return (
         <Dialog open={open}>
-            <DialogTitle textAlign="center">Create New Account</DialogTitle>
+            <DialogTitle textAlign="center">Create New Job</DialogTitle>
             <DialogContent>
                 <form onSubmit={(e) => e.preventDefault()}>
                     <Stack
                         sx={{
-                            width: '100%',
-                            minWidth: {xs: '300px', sm: '360px', md: '400px'},
-                            gap: '1.5rem',
-                        }}
-                    >
-                        {columns.map((column) => (
-                            <TextField
-                                key={column.accessorKey}
-                                label={column.header}
-                                name={column.accessorKey}
-                                onChange={(e) =>
-                                    setValues({...values, [e.target.name]: e.target.value})
-                                }
-                            />
-                        ))}
+                            width: "100%",
+                            minWidth: {xs: "300px", sm: "360px", md: "400px"},
+                            gap: "1.5rem",
+                        }}>
+                        {filteredColumns.map((column) => {
+                            if (column.accessorKey === "languages") {
+                                return (
+                                    <FormControl key={column.accessorKey} fullWidth>
+                                        <InputLabel>{column.header}</InputLabel>
+                                        <Select
+                                            multiple
+                                            name={column.accessorKey}
+                                            key={column.accessorKey}
+                                            value={values[column.accessorKey]}
+                                            onChange={handleChange}
+                                            renderValue={(selected) => selected.join(", ")}
+                                            MenuProps={{
+                                                PaperProps: {
+                                                    style: {
+                                                        maxHeight: 224,
+                                                        width: 250,
+                                                    },
+                                                },
+                                            }}
+                                        >
+                                            {column.muiTableBodyCellEditTextFieldProps.children}
+                                        </Select>
+                                    </FormControl>
+                                );
+                            }
+                            if (column.accessorKey === "status") {
+                                return (
+                                    <FormControl key={column.accessorKey} fullWidth>
+                                        <InputLabel>{column.header}</InputLabel>
+                                        <Select
+                                            name={column.accessorKey}
+                                            value={values[column.accessorKey]}
+                                            onChange={handleChange}
+                                        >
+                                            <MenuItem value="ACTIVE">ACTIVE</MenuItem>
+                                            <MenuItem value="INACTIVE">INACTIVE</MenuItem>
+                                        </Select>
+                                    </FormControl>
+                                );
+                            } else if (column.header === "Salary") {
+                            } else return (
+                                <TextField
+                                    key={column.accessorKey}
+                                    label={column.header}
+                                    name={column.accessorKey}
+                                    onChange={handleChange}
+                                    value={values[column.accessorKey]}
+                                />
+                            );
+                        })}
                     </Stack>
                 </form>
             </DialogContent>
-            <DialogActions sx={{p: '1.25rem'}}>
+            <DialogActions sx={{p: "1.25rem"}}>
                 <Button onClick={onClose}>Cancel</Button>
-                <Button color="secondary" onClick={handleSubmit} variant="contained">
-                    Create New Account
+                <Button
+                    color="secondary"
+                    onClick={handleSubmit}
+                    variant="contained">
+                    Create New Job
                 </Button>
             </DialogActions>
         </Dialog>

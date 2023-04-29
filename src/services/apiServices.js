@@ -116,14 +116,14 @@ export const jobService = {
     findAll: (data) => {
         return axios.post(`${API_URL}jobs/findAll`, {data}, { headers: authHeader() });
     },
-    create: () => {
-        return axios.post(`${API_URL}jobs/create`, { headers: authHeader() });
+    create: (data) => {
+        return axios.put(`${API_URL}jobs/create`, data, { headers: authHeader() });
     },
     get: () => {
         return axios.get(`${API_URL}jobs/get`, { headers: authHeader() });
     },
     edit: (data) => {
-        return axios.post(`${API_URL}jobs/edit`, {data}, { headers: authHeader() });
+        return axios.post(`${API_URL}jobs/edit`, data, { headers: authHeader() });
     },
     delete: (id) => {
         return axios.delete(`${API_URL}jobs/delete?jobId=` + id, { headers: authHeader() });
