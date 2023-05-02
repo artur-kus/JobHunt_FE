@@ -1,7 +1,7 @@
 import React from 'react';
-import {withRouter} from "../../common/with-router";
-import {homeService} from "../../services/apiServices"
-import FileUploader from "../../services/file-uploader";
+import {withRouter} from "../../../common/with-router";
+import {homeService} from "../../../services/apiServices"
+import FileUploader from "../../../services/file-uploader";
 import "./job-detail.css";
 
 class JobDetail extends React.Component {

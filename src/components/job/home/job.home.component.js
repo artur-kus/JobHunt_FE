@@ -1,7 +1,7 @@
 import React from "react";
-import {homeService} from "../../services/apiServices"
+import {homeService} from "../../../services/apiServices"
 import JobList from "./job.list.component";
-import {withRouter} from "../../common/with-router";
+import {withRouter} from "../../../common/with-router";
 
 class JobHome extends React.Component {
     constructor(props) {

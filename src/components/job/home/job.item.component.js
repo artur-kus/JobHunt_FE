@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {withRouter} from "../../common/with-router";
+import {withRouter} from "../../../common/with-router";
 import JobDetail from "./job.detail";
 import {Link} from "react-router-dom";
 

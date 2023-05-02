@@ -2,7 +2,6 @@ import React, {Component} from "react";
 
 import {userService} from "../services/apiServices"
 import EventBus from "../common/EventBus";
-import { SidebarCompany } from "../sidebar"
 // import AddJob from "../services/company/job/addJob"
 
 export default class BoardCompany extends Component {
@@ -43,7 +42,6 @@ export default class BoardCompany extends Component {
             <div>
                 <div className="nav-menu">
                     {/*<BrowserRouter>*/}
-                    <SidebarCompany />
                     {/*<div className="container mt-3">*/}
                     {/*    <Route exact path="/" component={Home} />*/}
                     {/*    <Route exact path="/home" component={Home} />*/}

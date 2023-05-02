@@ -1,36 +1,22 @@
 .sidebar {
-    position: fixed;
-    left: 0;
-    height: 100%;
-    min-width: 15%;
     background-color: #262a2d;
-    color: #ccc;
-    box-shadow: 2px 0 6px rgba(0, 0, 0, 0.1);
-    overflow-y: auto;
+    height: 100vh;
+    position: fixed;
+    top: 55px;
+    left: 0;
+    width: 200px;
     z-index: 1;
+    overflow-y: auto;
 }
 
-.nav-text {
-    font-size: 16px;
-    font-weight: 500;
-    padding: 10px 20px;
-    cursor: pointer;
+.sidebar__link {
+    color: #ffffff;
+    display: block;
+    font-size: 1.5rem;
+    padding: 1rem;
+    text-decoration: none;
 }
 
-.nav-text:hover {
-    background-color: #333;
-}
-
-.active-nav {
-    background-color: #444;
-}
-
-.sub-nav-text {
-    font-size: 14px;
-    font-weight: 400;
-    padding: 8px 50px 8px 70px;
-}
-
-.sub-nav-text:hover {
-    background-color: #333;
+.link:hover {
+    background-color: #3a3d40;
 }

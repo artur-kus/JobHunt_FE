@@ -42,6 +42,12 @@ export const enumService = {
     getUserRoles: () => {
         return axios.get(`${API_URL}enum/user-roles`);
     },
+    getJobRoles: () => {
+        return axios.get(`${API_URL}enum/job-roles`);
+    },
+    getJobType: () => {
+        return axios.get(`${API_URL}enum/job-types`);
+    },
     getCountries: () => {
         return axios.get(`${API_URL}enum/countries`);
     },

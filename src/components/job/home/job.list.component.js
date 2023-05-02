@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import JobItem from './job.item.component'
-import {withRouter} from "../../common/with-router";
+import {withRouter} from "../../../common/with-router";
 
 
 class JobList extends Component {
