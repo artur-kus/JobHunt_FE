@@ -5,7 +5,6 @@ import CheckButton from "react-validation/build/button";
 
 import {authService} from "../services/apiServices";
 import {enumService} from "../services/apiServices";
-import ThanksYouPage from "./thanks.for.register.component"
 import {withRouter} from "../common/with-router";
 import CompanyForm from "./register-company";
 
@@ -51,6 +50,18 @@ const vpassword = password => {
     //     );
     // }
 };
+
+function RegistrationConfirmation() {
+    return (
+        <div>
+            <h1>Thank you for registering!</h1>
+            <p>You can log in with the details used during the sign-up process.</p>
+            <a href="http://www.localhost:8011/">
+                <input type="button" value="Back to home" />
+            </a>
+        </div>
+    );
+}
 
 class Register extends Component {
     constructor(props) {
@@ -112,7 +123,7 @@ class Register extends Component {
                         message: response.data.message,
                         successful: true
                     });
-                    this.props.history.redirect(ThanksYouPage);
+                    this.props.history.redirect(RegistrationConfirmation);
                 },
                 error => {
                     const resMessage =

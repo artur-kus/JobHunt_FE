@@ -1,21 +1,18 @@
-export default function authHeader() {
-  const user = JSON.parse(localStorage.getItem('user'));
+export const authHeader = (zip = false) => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    const headers = {
+        "Accept": 'application/json',
+        "Access-Control-Allow-Origin": "*",
+        'Content-Type': 'application/json',
+    };
 
-  if (user && user.token) {
-    return {
-      "Accept": 'application/json',
-      "Authorization": 'Bearer ' + user.token,
-      "Access-Control-Allow-Origin": "*",
-      'Content-Type': 'application/json',
-      // "Access-Control-Max-Age": 86400,
-      // "Access-Control-Allow-Methods": "GET, POST, PATCH, PUT, DELETE, OPTIONS",
-      // "Access-Control-Allow-Headers": "Origin, Content-Type, X-Auth-Token, Authorization, Accept,charset,boundary,Content-Length"
-    };
-  } else {
-    return {
-      "Accept": 'application/json',
-      "Access-Control-Allow-Origin": "*",
-      'Content-Type': 'application/json',
-    };
-  }
-}
+    if (user && user.token) {
+        headers.Authorization = 'Bearer ' + user.token;
+        if (zip) {
+            headers["Content-Type"] = 'application/zip';
+            headers.ResponseType = 'application/attachment';
+        }
+    }
+
+    return headers;
+};

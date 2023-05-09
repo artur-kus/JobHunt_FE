@@ -6,12 +6,8 @@ import './App.css';
 import {authService} from "./services/apiServices";
 import Login from "./components/login.component";
 import Register from "./components/register.component";
-import ThanksYouPage from "./components/thanks.for.register.component";
 import Home from "./components/home.component";
 import Profile from "./components/profile.component";
-import BoardUser from "./components/board-user.component";
-import BoardCompany from "./components/board-company.component";
-import BoardAdmin from "./components/board-admin.component";
 import Users from "./services/user/candidate"
 import {TaskComponent} from "./services/company/job/addJob";
 import JobDetail from "./components/job/home/job.detail";
@@ -137,14 +133,10 @@ function App() {
                     <Route path="/home" element={<Home/>}/>
                     <Route path="/login" element={<Login/>}/>
                     <Route path="/register" element={<Register/>}/>
-                    <Route path="/thanks-for-registering" element={<ThanksYouPage/>}/>
                     <Route path="/profile" element={<Profile/>}/>
-                    <Route path="/user" element={<BoardUser/>}/>
-                    <Route path="/dashboard/company" element={<BoardCompany/>}/>
                     <Route path="/dashboard/company/jobs" element={<Jobs/>}/>
                     <Route path="/job/:jobId" element={<JobDetail/>}/>
                     <Route path={"/dashboard/admin/users"} element={<Users/>}/>
-                    <Route path="/dashboard/admin" element={<BoardAdmin/>}/>
                     <Route path="/task" element={<TaskComponent/>}/>
                     <Route path="/dashboard/admin/jobs" element={<Jobs/>}/>
                 </Routes>

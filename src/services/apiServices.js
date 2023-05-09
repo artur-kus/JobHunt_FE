@@ -1,6 +1,5 @@
 import axios from 'axios';
-import authHeader from './auth-header';
-
+import {authHeader} from "./auth-header";
 
 const API_URL = 'http://localhost:8010/api/';
 
@@ -82,7 +81,6 @@ export const authService = {
 
 export const candidateService = {
     findAll: (data) => {
-        console.log(authHeader());
         return axios.post(`${API_URL}candidates/findAll`, {data}, { headers: authHeader() });
     },
     create: () => {
@@ -101,7 +99,6 @@ export const candidateService = {
 
 export const companyService = {
     findAll: (data) => {
-        console.log(authHeader());
         return axios.post(`${API_URL}companies/findAll`, {data}, {headers: authHeader()});
     },
     create: () => {
@@ -133,5 +130,13 @@ export const jobService = {
     },
     delete: (id) => {
         return axios.delete(`${API_URL}jobs/delete?jobId=` + id, { headers: authHeader() });
+    },
+    downloadResponses: (idJob) => {
+        return axios({
+            url: `${API_URL}file/download/cv/zip/` + idJob,
+            method: 'post',
+            headers: authHeader(true),
+            responseType: 'blob'
+        });
     }
 };

@@ -15,7 +15,7 @@ import {
     TextField,
     Tooltip,
 } from '@mui/material';
-import {Delete, Edit} from '@mui/icons-material';
+import {Delete, DownloadSharp, Edit} from '@mui/icons-material';
 import {enumService, jobService} from "../../services/apiServices";
 import MenuItem from '@mui/material/MenuItem'
 
@@ -75,6 +75,24 @@ const Jobs = () => {
         [tableData],
     );
 
+    const downloadResponses = async (idJob) => {
+        const date = new Date();
+        const currentDate = ("0" + date.getHours()).slice(-2) +
+            ("0" + date.getMinutes()).slice(-2) +
+            "_" +
+            ("0" + date.getDate()).slice(-2) +
+            ("0" + (date.getMonth() + 1)).slice(-2) +
+            date.getFullYear().toString().substr(-2);
+        const filename = `responses_${idJob}_${currentDate}.zip`;
+        const response = await jobService.downloadResponses(idJob);
+        const url = window.URL.createObjectURL(new Blob([response.data]), { type: 'application/zip' });
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", filename);
+        document.body.appendChild(link);
+        link.click();
+    };
+
     const notVisibleColumns = useMemo(() => ['salary.salary', 'salary.minWage', 'salary.maxWage'], []);
 
     const columns = useMemo(() => {
@@ -106,7 +124,7 @@ const Jobs = () => {
                         children: [
                             <MenuItem key="DEVELOPER" value="Developer">Male</MenuItem>,
                             <MenuItem key="OTHER" value="Other">Male</MenuItem>
-                       ],
+                        ],
                     }
                 },
                 {
@@ -216,6 +234,11 @@ const Jobs = () => {
                         <Tooltip arrow placement="right" title="Delete">
                             <IconButton color="error" onClick={() => handleDeleteRow(row)}>
                                 <Delete/>
+                            </IconButton>
+                        </Tooltip>
+                        <Tooltip arrow placement="right" title="Download job responses">
+                            <IconButton color="primary" onClick={() => downloadResponses(row.original.id)}>
+                                <DownloadSharp/>
                             </IconButton>
                         </Tooltip>
                     </Box>
@@ -385,9 +408,9 @@ const CreateNewJobModal = ({open, columns, onClose, onSubmit, idCompany, jobType
             </DialogContent>
             <DialogActions sx={{p: "1.25rem"}}>
                 <Button onClick={onClose}>Cancel</Button>
-                <Button style={{ backgroundColor: '#262a2d', color: '#fff' }}
-                    onClick={handleSubmit}
-                    variant="contained">
+                <Button style={{backgroundColor: '#262a2d', color: '#fff'}}
+                        onClick={handleSubmit}
+                        variant="contained">
                     Create New Job
                 </Button>
             </DialogActions>
