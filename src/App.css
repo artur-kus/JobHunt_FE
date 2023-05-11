@@ -34,3 +34,7 @@ label {
 .content-with-sidebar{
   margin-left: 200px;
 }
+
+body {
+  background-color: #BBBBBB;
+}

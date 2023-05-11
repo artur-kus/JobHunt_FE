@@ -1,6 +1,4 @@
 import React, {Component} from "react";
-
-
 import Job from "./job/home/job.home.component";
 import JobCard from "./job/home/job.card.js.css"
 import {userService} from "../services/apiServices"

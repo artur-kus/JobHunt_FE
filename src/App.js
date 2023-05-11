@@ -46,18 +46,13 @@ function App() {
         setCurrentUser(undefined);
     }
 
-    const defaultBackground = {
-        backgroundColor: '#BBBBBB',
-        height: '100vh',
-    };
-
     function useIsInDashboard(value) {
         const location = useLocation();
         return location.pathname.includes(`/dashboard/${value}`);
     }
 
     return (
-        <div style={defaultBackground}>
+        <div>
             {useIsInDashboard("admin") && <SidebarAdmin/>}
             {useIsInDashboard("company") && <SidebarCompany/>}
             <div>

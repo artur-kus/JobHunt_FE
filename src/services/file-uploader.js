@@ -36,45 +36,30 @@ function FileUploader(props) {
             });
     };
 
+    const handleClose = () => {
+        props.onClose();
+    };
+
     return (
-            <form onSubmit={sendCv} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', fontFamily: 'Arial, sans-serif' }}>
-                <label style={{ margin: '10px 0' }}>Respond to this job advertisement by sending your CV!</label>
-                <label>
-                    Email:
-                    <input type="email" value={email} onChange={handleEmailChange} style={{ padding: '8px', borderRadius: '4px', border: '1px solid #ccc', fontSize: '16px' }} />
-                </label>
-                <br />
-                <label>
-                    File:
-                    <input type="file" onChange={handleFileChange} style={{ marginTop: '10px' }} />
-                </label>
-                <br />
-                <button
-                    type="submit"
-                    style={{
-                        marginTop: '20px',
-                        backgroundColor: '#4CAF50',
-                        border: 'none',
-                        color: 'white',
-                        padding: '10px 20px',
-                        textAlign: 'center',
-                        textDecoration: 'none',
-                        display: 'inline-block',
-                        fontSize: '16px',
-                        borderRadius: '4px',
-                        cursor: 'pointer',
-                        transition: 'background-color 0.3s ease-in-out',
-                    }}
-                    onMouseEnter={(e) => {
-                        e.target.style.backgroundColor = '#3e8e41';
-                    }}
-                    onMouseLeave={(e) => {
-                        e.target.style.backgroundColor = '#4CAF50';
-                    }}
-                >
-                    Send CV
-                </button>
-            </form>
+        <form onSubmit={sendCv}
+              style={{display: 'flex', flexDirection: 'column', alignItems: 'center', fontFamily: 'Arial, sans-serif'}}>
+            <label style={{margin: '10px 0'}}>Respond to this job advertisement by sending your CV!</label>
+            <label>
+                Email:
+                <input type="email" value={email} onChange={handleEmailChange}
+                       style={{padding: '8px', borderRadius: '4px', border: '1px solid #ccc', fontSize: '16px'}}/>
+            </label>
+            <br/>
+            <label>
+                File:
+                <input type="file" onChange={handleFileChange} style={{marginTop: '10px'}}/>
+            </label>
+            <br/>
+            <div>
+                <button className={"green-button"}>Send CV</button>
+                <button className="button red-button" onClick={handleClose}>Back</button>
+            </div>
+        </form>
     );
 }
 
