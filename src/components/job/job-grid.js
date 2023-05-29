@@ -11,7 +11,7 @@ import {
     IconButton,
     InputLabel,
     Select,
-    Stack,
+    Stack, TableCell,
     TextField,
     Tooltip,
 } from '@mui/material';
@@ -105,6 +105,7 @@ const Jobs = () => {
                     enableCreating: false,
                     enableEditing: false,
                     size: 80,
+                    rowStyle: {height: 10},
                 },
                 {
                     accessorKey: 'name',
@@ -114,7 +115,7 @@ const Jobs = () => {
                 {
                     accessorKey: 'description',
                     header: 'Description',
-                    size: 140,
+                    size: 140
                 },
                 {
                     accessorKey: 'role',
@@ -203,6 +204,13 @@ const Jobs = () => {
                 editingMode="modal"
                 enableColumnOrdering
                 enableEditing
+                muiTableBodyProps={{
+                    sx: {
+                        '& tr:nth-of-type(odd)': {
+                            backgroundColor: '#f5f5f5',
+                        },
+                    },
+                }}
                 // muiTableBodyCellEditTextFieldProps={{
                 //     Select: true,
                 //     TextField: true,
@@ -223,7 +231,6 @@ const Jobs = () => {
                 //             </MenuItem>
                 //         )),
                 //     },
-                // }}
                 renderRowActions={({row, table}) => (
                     <Box sx={{display: 'flex', gap: '1rem'}}>
                         <Tooltip arrow placement="left" title="Edit">

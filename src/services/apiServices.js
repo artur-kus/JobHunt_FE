@@ -59,10 +59,9 @@ export const authService = {
     login: (email, password) => {
         return axios.post(`${API_URL}auth/login`, { email, password })
             .then(response => {
-                const tokenLength = [131, 132, 133];
+                console.log(response.data.token.length)
                 const userRole = ["USER", "ADMIN", "COMPANY"];
-                if (response.data != null && tokenLength.includes(response.data.token.length) &&
-                    userRole.includes(response.data.role)) {
+                if (response.data != null && userRole.includes(response.data.role)) {
                     localStorage.setItem("user", JSON.stringify(response.data));
                 }
                 return response.data;
@@ -140,3 +139,8 @@ export const jobService = {
         });
     }
 };
+
+export function sendResponseByAccount(jobId){
+    return axios.get(`${API_URL}response/send?jobId=${jobId}`, { headers: authHeader() })
+}
+

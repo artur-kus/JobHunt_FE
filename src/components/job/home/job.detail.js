@@ -1,31 +1,48 @@
 import React, {useEffect, useState} from 'react';
 import {withRouter} from '../../../common/with-router';
-import {homeService} from '../../../services/apiServices';
+import {authService, homeService, sendResponseByAccount} from '../../../services/apiServices';
 import FileUploader from '../../../services/file-uploader';
+import {toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const SubmitMenu = (job) => {
-    const [isSubmitCv, setIsSubmitCv] = useState(false);
+    const [isSubmitByCv, setIsSubmitByCv] = useState(false);
 
     const toggleSubmitMenu = () => {
-        setIsSubmitCv(true);
+        setIsSubmitByCv(true);
     }
     const handleBack = () => {
-        setIsSubmitCv(false);
+        setIsSubmitByCv(false);
     }
+
+    const submitByAccount = () => {
+        const user = authService.getCurrentUser();
+        if (user != null) {
+            const defaultErrorMessage = 'Server problem, try again later';
+            sendResponseByAccount(job.job.id)
+                .then((response) => {
+                    (response.request.status === 200)
+                        ? toast.info('Submit was sent')
+                        : toast.error(defaultErrorMessage)
+                }).catch((error) => {
+                    return toast.error(error.response.data != null ? error.response.data : defaultErrorMessage);
+                });
+        } else return toast.error('Please log in to reply to this job ad');
+    };
 
     return (
         <div className="submit">
-            {!isSubmitCv && (
+            {!isSubmitByCv && (
                 <button className="button" onClick={toggleSubmitMenu}>Submit By CV</button>
             )}
-            {isSubmitCv && (
+            {isSubmitByCv && (
                 <div className="by-cv">
                     <FileUploader jobId={job.id} onClose={handleBack}/>
                 </div>
             )}
-            {!isSubmitCv && (
+            {!isSubmitByCv && (
                 <div className="by-account">
-                    <button className="blue-button">Submit by Account</button>
+                    <button className="blue-button" onClick={submitByAccount}>Submit by Account</button>
                 </div>
             )}
         </div>

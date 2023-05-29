@@ -20,7 +20,7 @@ function getRoutePath(user){
     const roles = [
         { role: "COMPANY", routePath: "/dashboard/company" },
         { role: "ADMIN", routePath: "/dashboard/admin" },
-        { role: "USER", routePath: "/dashboard/user" },
+        { role: "USER", routePath: "/dashboard/user" }
     ];
     const userRole = roles.find(({ role }) => user.role.includes(role));
     return userRole ? userRole.routePath : "/profile";

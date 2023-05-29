@@ -55,6 +55,7 @@ function App() {
         <div>
             {useIsInDashboard("admin") && <SidebarAdmin/>}
             {useIsInDashboard("company") && <SidebarCompany/>}
+            {useIsInDashboard("user") && <SidebarCompany/>}
             <div>
                 <nav className="navbar navbar-expand navbar-dark bg-dark">
                     <Link to={"/"} className="navbar-brand">
